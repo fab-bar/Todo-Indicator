@@ -35,7 +35,7 @@ DEFAULT_EDITOR = "xdg-open"
 
 class TodoTxtIndicator(object):
 
-    def __init__(self, todo_filename, text_editor=None, invert_icon=False):
+    def __init__(self, todo_filename, filter_text, text_editor=None, invert_icon=False):
         """Sets the filename, loads the list of items from the file, builds the
         indicator, &c."""
         if text_editor:
@@ -48,6 +48,8 @@ class TodoTxtIndicator(object):
         else:
             # Default to light icon, assuming dark panel background:
             self.icon_path = LIGHT_ICON
+
+        self.filter_text = filter_text
 
         # Initialize the main list object:
         self.todo_list = TodoTxtList(todo_filename)
@@ -150,7 +152,7 @@ class TodoTxtIndicator(object):
     def _add_list_menu_items(self, menu):
         """Creates menu items for each of our todo list items. Pass it a GTK
         menu object, it returns that object with menu items added."""
-        for todo_item in sorted(self.todo_list.items): # Display items sorted
+        for todo_item in sorted(self.todo_list.items_filtered(self.filter_text)): # Display items sorted
             menu_item = Gtk.MenuItem(str(todo_item))
             if todo_item.is_completed: # gray out completed items
                 menu_item.set_sensitive(False)

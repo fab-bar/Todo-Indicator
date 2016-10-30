@@ -19,6 +19,7 @@
 
 import os
 import sys
+import re
 
 from item import TodoTxtItem
 
@@ -109,6 +110,11 @@ class TodoTxtList(object):
         except IOError:
             print "Error writing to file:\n" + self.todo_filename
             sys.exit(1)
+
+    def items_filtered(self, filter_text):
+        """Return a subset of the items"""
+        filter_regex = re.escape(filter_text)
+        return [item for item in self.items if re.search(filter_regex, item.text)]
 
     def __str__(self):
         list_text = ''

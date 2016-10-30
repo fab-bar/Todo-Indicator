@@ -29,6 +29,8 @@ def get_args():
                         help='your favorite text editor')
     parser.add_argument('-i', '--invert', action='store_true', default=False,
                         help='invert the panel icon color')
+    parser.add_argument('-f', '--filter_text', action='store', default='',
+                        help='only show items that match the given string')
     parser.add_argument('todo_filename', action='store',
                         help='your todo.txt file')
     return parser.parse_args()
@@ -37,7 +39,7 @@ def get_args():
 def main():
     """My main() man."""
     args = get_args()
-    ind = TodoTxtIndicator(args.todo_filename, args.editor, args.invert)
+    ind = TodoTxtIndicator(args.todo_filename, args.filter_text, args.editor, args.invert)
     ind.main()
 
 
